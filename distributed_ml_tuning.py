@@ -7,7 +7,7 @@ import joblib
 
 if __name__ == "__main__":
     # 1. Connect to your active cluster (Ryzen IP)
-    client = Client('tcp://10.90.20.76:8786')
+    client = Client('tcp://10.90.23.184:8786')
     print(f"Cluster connected. Using workers: {client.scheduler_info()['workers'].keys()}")
 
     # 2. Create a "Heavy" Synthetic Dataset
