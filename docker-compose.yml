@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # The "Master" node that manages tasks
+  scheduler:
+    build: .
+    ports:
+      - "8786:8786" # Communication port
+      - "8787:8787" # Dashboard port
+    command: dask scheduler
+
+  # Local Worker (Using your Ryzen 5 7000 power)
+  ryzen-worker:
+    build: .
+    command: dask worker tcp://scheduler:8786 --name ryzen-worker
+    depends_on:
+      - scheduler
+
+  # Remote Worker Template (For the i5 5th Gen)
+  # Includes memory limits to prevent crashing legacy hardware
+  i5-worker:
+    build: .
+    command: dask worker tcp://scheduler:8786 --name i5-worker --memory-limit 4GB
+    depends_on:
+      - scheduler
